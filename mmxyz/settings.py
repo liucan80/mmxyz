@@ -67,6 +67,7 @@ DEFAULT_REQUEST_HEADERS = {
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'mmxyz.pipelines.MmxyzPipeline': 300,
+    #'mmxyz.pipelines.ImagePipeline':500,
 }
 #设置图片下载路径
 IMAGE_SRORE="./mm"

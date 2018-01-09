@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import requests
+import copy
 import scrapy
 from mmxyz.items import MmxyzItem
 
@@ -25,12 +26,10 @@ class MmxyzspiderSpider(scrapy.Spider):
                 './div[@class="post-info"]/div[@class="comments"]/span[1]/a/text()').extract_first()
             item['likesNum'] = div.xpath(
                 './div[@class="post-info"]/div[@class="likes"]/span[1]/text()').extract_first()
-            item['fileName'] = self.base + item['title']
-            fileName = item['fileName']
-            if not os.path.exists(fileName):
-                os.makedirs(fileName)
-            yield scrapy.Request(url=item['pageLink'],meta={'item1':item},callback=self.parse_Two)
+            item['folderName'] = self.base + item['title']
             yield item
+            yield scrapy.Request(url=item['pageLink'], meta={'item1': copy.deepcopy(item)}, callback=self.parse_Two)
+           
             
         self.pageNum+=1
         nexturl="http://www.mmxyz.net/category/rosi-video/?action=ajax_post&cat=rosi-video&pag=%d"%self.pageNum
@@ -44,8 +43,9 @@ class MmxyzspiderSpider(scrapy.Spider):
         for imglink in imglinks:
             i=i+1
             link=imglink.xpath('./dt/a/@href').extract_first()
+            # yield scrapy.Request(link)
             image = requests.get(link)
-            f = open(item2['fileName']+"/%d.jpg"%i,'wb')
+            f = open(item2['folderName']+"/%d.jpg"%i,'wb')
             f.write(image.content)
             f.close()
         yield None   

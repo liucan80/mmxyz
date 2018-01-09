@@ -16,9 +16,11 @@ class MmxyzItem(scrapy.Item):
     viewsNum=scrapy.Field()
     commentsNum=scrapy.Field()
     likesNum=scrapy.Field()
-    fileName = scrapy.Field()  # 文件夹名，每一个MM一个文件夹
-    path = scrapy.Field()  # 图片存储路径（绝对路径）
-    pageURL = scrapy.Field()  # 每一张图片入口URL
-    detailURL = scrapy.Field()  # 图片原图地址
-    image=scrapy.Field
+    folderName = scrapy.Field()  # 文件夹名，每一个MM一个文件夹
     pass
+# class ImageItem(scrapy.item):
+#     path = scrapy.Field()  # 图片存储路径（绝对路径）
+#     pageURL = scrapy.Field()  # 每一张图片入口URL
+#     detailURL = scrapy.Field()  # 图片原图地址
+#     image=scrapy.Field
+#     pass    
