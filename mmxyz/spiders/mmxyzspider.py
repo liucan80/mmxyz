@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
-import requests
 import copy
+
+import requests
 import scrapy
+
 from mmxyz.items import MmxyzItem
+
 
 class MmxyzspiderSpider(scrapy.Spider):
     name = 'mmxyzspider'
@@ -34,10 +36,9 @@ class MmxyzspiderSpider(scrapy.Spider):
         self.pageNum+=1
         nexturl="http://www.mmxyz.net/category/rosi-video/?action=ajax_post&cat=rosi-video&pag=%d"%self.pageNum
         if self.pageNum<=5:
-            yield scrapy.Request(nexturl,callable=self.parse)
+            yield scrapy.Request(url=nexturl, callback=self.parse)
     def parse_Two(self,response):
         item2 = response.meta['item1']
-       
         imglinks = response.xpath('//dl[@class="gallery-item"]')
         i=0
         for imglink in imglinks:
@@ -48,7 +49,4 @@ class MmxyzspiderSpider(scrapy.Spider):
             f = open(item2['folderName']+"/%d.jpg"%i,'wb')
             f.write(image.content)
             f.close()
-        yield None   
-
-
-    
+        yield None
